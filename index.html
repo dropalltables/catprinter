@@ -1,322 +1,311 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MXW01 CatPrinter Tools - Thermal Receipt & Image Printer Interface</title>
-    <meta name="description" content="Web interface for MXW01 CatPrinter - print receipts and images via Bluetooth. Compatible with thermal printers sold on AliExpress for around $20.">
-    <meta name="keywords" content="MXW01, catprinter, cat printer, thermal printer, receipt printer, bluetooth printer, MXW01 printer, portable printer, aliexpress printer, thermal receipt printer, mini printer, pocket printer, wireless printer, cute printer, small printer">
-    <meta name="author" content="MXW01 Tools">
-    <meta name="google-site-verification" content="48f-bTXCryRqg-w3Hjgpl13aBiEh2J2LXBfF4gv8xp4" />
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      MXW01 CatPrinter Tools - Thermal Receipt & Image Printer Interface
+    </title>
+    <meta
+      name="description"
+      content="Web interface for MXW01 CatPrinter - print receipts and images via Bluetooth. Compatible with thermal printers sold on AliExpress for around $20."
+    />
+    <meta
+      name="keywords"
+      content="MXW01, catprinter, cat printer, thermal printer, receipt printer, bluetooth printer, MXW01 printer, portable printer, aliexpress printer, thermal receipt printer, mini printer, pocket printer, wireless printer, cute printer, small printer"
+    />
+    <meta name="author" content="MXW01 Tools" />
+    <meta
+      name="google-site-verification"
+      content="48f-bTXCryRqg-w3Hjgpl13aBiEh2J2LXBfF4gv8xp4"
+    />
+
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://catprinter.vercel.app/">
-    <meta property="og:title" content="MXW01 CatPrinter Tools - Thermal Receipt & Image Printer Interface">
-    <meta property="og:description" content="Web interface for MXW01 CatPrinter - print receipts and images via Bluetooth. Compatible with thermal printers sold on AliExpress for around $20.">
-    <meta property="og:image" content="https://catprinter.vercel.app/og-image.png">
-    
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://catprinter.vercel.app/" />
+    <meta
+      property="og:title"
+      content="MXW01 CatPrinter Tools - Thermal Receipt & Image Printer Interface"
+    />
+    <meta
+      property="og:description"
+      content="Web interface for MXW01 CatPrinter - print receipts and images via Bluetooth. Compatible with thermal printers sold on AliExpress for around $20."
+    />
+    <meta
+      property="og:image"
+      content="https://catprinter.vercel.app/og-image.png"
+    />
+
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://catprinter.vercel.app/">
-    <meta property="twitter:title" content="MXW01 CatPrinter Tools - Thermal Receipt & Image Printer Interface">
-    <meta property="twitter:description" content="Web interface for MXW01 CatPrinter - print receipts and images via Bluetooth. Compatible with thermal printers sold on AliExpress for around $20.">
-    <meta property="twitter:image" content="https://catprinter.vercel.app/og-image.png">
-    
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://catprinter.vercel.app/" />
+    <meta
+      property="twitter:title"
+      content="MXW01 CatPrinter Tools - Thermal Receipt & Image Printer Interface"
+    />
+    <meta
+      property="twitter:description"
+      content="Web interface for MXW01 CatPrinter - print receipts and images via Bluetooth. Compatible with thermal printers sold on AliExpress for around $20."
+    />
+    <meta
+      property="twitter:image"
+      content="https://catprinter.vercel.app/og-image.png"
+    />
+
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+    <link rel="icon" type="image/gif" href="/cat-face.gif" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
     <header>
-        <h1>MXW01 CatPrinter Tools</h1>
-        <p>Web interface for MXW01 CatPrinter - print receipts and images via Bluetooth. Compatible with portable thermal printers from AliExpress. Create custom receipts or print images wirelessly using your MXW01 cat printer device.</p>
-        
-        <!-- Mode Toggle -->
-        <div class="mode-toggle">
-            <button id="receiptModeBtn" class="mode-btn mode-receipt active">Receipt Mode</button>
-            <button id="imageModeBtn" class="mode-btn mode-image">Image Mode</button>
-        </div>
+      <h1>MXW01 CatPrinter Tools</h1>
+      <p>
+        Web interface for MXW01 CatPrinter - print receipts and images via
+        Bluetooth. Compatible with portable thermal printers from AliExpress.
+        Create custom receipts or print images wirelessly using your MXW01 cat
+        printer device.
+      </p>
+
+      <!-- Mode Toggle -->
+      <div class="mode-toggle">
+        <button id="receiptModeBtn" class="mode-btn mode-receipt active">
+          Receipt Mode
+        </button>
+        <button id="imageModeBtn" class="mode-btn mode-image">
+          Image Mode
+        </button>
+      </div>
     </header>
 
     <main>
-        <div class="panels">
-            <!-- Receipt Mode Content -->
-            <div id="receiptModeContent" class="mode-content active">
-                <!-- Left Panel: Configuration -->
-                <section class="config-panel">
-                    <div class="config-section">
-                        <h3>Business Information</h3>
-                        <div class="input-group">
-                            <label for="businessName">Name</label>
-                            <input type="text" id="businessName" value="MY RESTAURANT">
-                        </div>
-                        <div class="input-group">
-                            <label for="businessAddress">Address</label>
-                            <textarea id="businessAddress" rows="2">123 MAIN STREET
-CITY, STATE 12345</textarea>
-                        </div>
-                        <div class="input-group">
-                            <label for="businessPhone">Phone</label>
-                            <input type="text" id="businessPhone" value="(555) 123-4567">
-                        </div>
-                    </div>
-                    
-                    <div class="config-section">
-                        <h3>Transaction</h3>
-                        <div class="flex-row">
-                            <div class="input-group">
-                                <label for="tableNumber">Table</label>
-                                <input type="text" id="tableNumber" value="12">
-                            </div>
-                            <div class="input-group">
-                                <label for="serverName">Server</label>
-                                <input type="text" id="serverName" value="ALICE">
-                            </div>
-                            <div class="input-group">
-                                <label for="transactionNumber">#</label>
-                                <input type="text" id="transactionNumber" value="1234">
-                            </div>
-                        </div>
-                        <div class="flex-row">
-                            <div class="input-group">
-                                <label for="taxRate">Tax %</label>
-                                <input type="number" id="taxRate" value="8.25" step="0.01">
-                            </div>
-                            <div class="input-group">
-                                <label>Date/Time</label>
-                                <div class="read-only-field" id="dateTimeField"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="config-section">
-                        <h3>Items</h3>
-                        <div id="itemsList"></div>
-                        
-                        <div class="item-entry">
-                            <div class="flex-row">
-                                <div class="input-group">
-                                    <input type="text" id="newItemName" placeholder="Item name">
-                                </div>
-                                <div class="input-group input-group-small">
-                                    <input type="number" id="newItemPrice" placeholder="0.00" step="0.01">
-                                </div>
-                                <button id="addItemBtn" class="btn-primary">Add</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="config-section">
-                        <h3>Payment</h3>
-                        <div class="flex-row">
-                            <div class="input-group">
-                                <label for="tipAmount">Tip</label>
-                                <input type="number" id="tipAmount" value="0.00" step="0.01">
-                            </div>
-                            <div class="input-group">
-                                <label for="paymentMethod">Method</label>
-                                <select id="paymentMethod">
-                                    <option value="CASH">Cash</option>
-                                    <option value="CREDIT" selected>Credit Card</option>
-                                    <option value="DEBIT">Debit</option>
-                                    <option value="MOBILE">Mobile Pay</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="flex-row">
-                            <div class="input-group">
-                                <label for="amountPaid">Paid</label>
-                                <input type="number" id="amountPaid" value="0.00" step="0.01">
-                            </div>
-                            <div class="input-group">
-                                <label>Change</label>
-                                <div class="read-only-field" id="changeAmount">$0.00</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="config-section">
-                        <h3>Footer</h3>
-                        <div class="input-group">
-                            <textarea id="footerMessage" rows="3">THANK YOU FOR DINING WITH US
-PLEASE COME AGAIN
-WWW.MYRESTAURANT.COM</textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="action-buttons">
-                        <button id="resetBtn" class="btn-secondary">Reset</button>
-                        <button id="connectReceiptBtn" class="btn btn-primary connect-btn">Connect Printer</button>
-                        <button id="printReceiptBtn" class="btn-primary" disabled>Print</button>
-                    </div>
-                </section>
-
-                <!-- Right Panel: Receipt Preview -->
-                <section class="preview-panel">
-                    <div class="preview-header">
-                        <h2>Print Preview</h2>
-                    </div>
-                    
-                    <div class="receipt-wrapper">
-                        <div class="receipt-container" id="receiptContainer">
-                            <div class="receipt" id="receiptPreview">
-                                <!-- Receipt will be rendered here -->
-                            </div>
-                        </div>
-                        <div class="receipt-summary" id="receiptSummary">
-                            <!-- Summary info will be placed here -->
-                        </div>
-                    </div>
-                </section>
-            </div>
-            
-            <!-- Image Mode Content -->
-            <div id="imageModeContent" class="mode-content">
-                <!-- Left Panel: Image Configuration -->
-                <section class="config-panel image-config-panel">
-                    <div class="config-section">
-                        <h3>Image Source</h3>
-                        <div class="input-group">
-                            <label for="imageUpload">Upload Image</label>
-                            <div class="file-upload-container">
-                                <input type="file" id="imageUpload" accept="image/*">
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <label>Rotation</label>
-                            <div class="rotation-controls">
-                                <button id="rotateLeftBtn" class="btn-icon" title="Rotate Left (90° Counter-Clockwise)">
-                                    <span class="rotation-icon">↺</span>
-                                </button>
-                                <span id="rotationDisplay">0°</span>
-                                <button id="rotateRightBtn" class="btn-icon" title="Rotate Right (90° Clockwise)">
-                                    <span class="rotation-icon">↻</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="config-section">
-                        <h3>Image Processing</h3>
-                        <div class="input-group">
-                            <label for="ditherMethod">Dithering Method</label>
-                            <select id="ditherMethod">
-                                <option value="threshold">Threshold</option>
-                                <option value="floydSteinberg" selected>Floyd-Steinberg</option>
-                                <option value="atkinson">Atkinson</option>
-                                <option value="halftone">Halftone</option>
-                                <option value="none">None</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label for="thresholdValue">Threshold</label>
-                            <input type="range" id="thresholdValue" min="0" max="255" value="128">
-                            <span id="thresholdDisplay">128</span>
-                        </div>
-                        <div class="input-group">
-                            <label for="imageInvert">Invert Image</label>
-                            <input type="checkbox" id="imageInvert">
-                        </div>
-                    </div>
-                    
-                    <div class="config-section">
-                        <h3>Size & Positioning</h3>
-                        <div class="input-group">
-                            <label for="imageWidth">Width (px)</label>
-                            <input type="number" id="imageWidth" value="384" min="1" max="384" step="1">
-                        </div>
-                        <div class="input-group">
-                            <label for="autoscaleImage">Auto Scale to Width</label>
-                            <input type="checkbox" id="autoscaleImage" checked>
-                        </div>
-                        <div class="input-group">
-                            <label for="imagePadding">Padding (px)</label>
-                            <input type="number" id="imagePadding" value="10" min="0" max="100" step="1">
-                        </div>
-                    </div>
-                    
-                    <div class="action-buttons">
-                        <button id="resetImageBtn" class="btn-secondary">Reset</button>
-                        <button id="connectImageBtn" class="btn btn-primary connect-btn">Connect Printer</button>
-                        <button id="printImageBtn" class="btn-primary" disabled>Print</button>
-                    </div>
-                </section>
-
-                <!-- Right Panel: Image Preview -->
-                <section class="preview-panel image-preview-panel">
-                    <div class="preview-header">
-                        <h2>Print Preview</h2>
-                    </div>
-                    
-                    <div class="image-wrapper" id="dropZone">
-                        <div class="image-container" id="imageContainer">
-                            <canvas id="imagePreview"></canvas>
-                            <div id="imagePreviewMessage">Drop image here or click the upload button</div>
-                        </div>
-                        <div class="image-summary" id="imageSummary">
-                            <!-- Image info will be placed here -->
-                        </div>
-                    </div>
-                </section>
+      <div class="panels">
+        <!-- Receipt Mode Content -->
+        <div id="receiptModeContent" class="mode-content active">
+          <!-- Left Panel: Configuration -->
+          <section class="config-panel">
+            <div id="receiptBlocksContainer" class="receipt-blocks-container">
+              <!-- Receipt blocks will be rendered here dynamically -->
             </div>
 
-            <!-- Printer Log Panel (shared between modes) -->
-            <section class="log-panel">
-                <div class="log-controls">
-                    <h2>Printer Log</h2>
-                    <button id="clearLogBtn">Clear Log</button>
+            <div class="action-buttons">
+              <button id="resetBtn" class="btn-secondary">Reset</button>
+              <button
+                id="connectReceiptBtn"
+                class="btn btn-primary connect-btn"
+              >
+                Connect Printer
+              </button>
+              <button id="printReceiptBtn" class="btn-primary" disabled>
+                Print
+              </button>
+            </div>
+          </section>
+
+          <!-- Right Panel: Receipt Preview -->
+          <section class="preview-panel">
+            <div class="preview-header">
+              <h2>Print Preview</h2>
+            </div>
+
+            <div class="receipt-wrapper">
+              <div class="receipt-container" id="receiptContainer">
+                <div class="receipt" id="receiptPreview">
+                  <!-- Receipt will be rendered here -->
                 </div>
-                
-                <div class="log-wrapper" id="logWrapper">
-                    <!-- Log entries will be added here -->
-                </div>
-                
-                <div class="progress-container" id="printProgress">
-                    <div class="progress-bar" id="printProgressBar"></div>
-                </div>
-            </section>
+              </div>
+              <div class="receipt-summary" id="receiptSummary">
+                <!-- Summary info will be placed here -->
+              </div>
+            </div>
+          </section>
         </div>
+
+        <!-- Image Mode Content -->
+        <div id="imageModeContent" class="mode-content">
+          <!-- Left Panel: Image Configuration -->
+          <section class="config-panel image-config-panel">
+            <div class="config-section">
+              <h3>Image Source</h3>
+              <div class="input-group">
+                <label for="imageUpload">Upload Image</label>
+                <div class="file-upload-container">
+                  <input type="file" id="imageUpload" accept="image/*" />
+                </div>
+              </div>
+              <div class="input-group">
+                <label>Rotation</label>
+                <div class="rotation-controls">
+                  <button
+                    id="rotateLeftBtn"
+                    class="btn-icon"
+                    title="Rotate Left (90° Counter-Clockwise)"
+                  >
+                    <span class="rotation-icon">↺</span>
+                  </button>
+                  <span id="rotationDisplay">0°</span>
+                  <button
+                    id="rotateRightBtn"
+                    class="btn-icon"
+                    title="Rotate Right (90° Clockwise)"
+                  >
+                    <span class="rotation-icon">↻</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>Image Processing</h3>
+              <div class="input-group">
+                <label for="ditherMethod">Dithering Method</label>
+                <select id="ditherMethod">
+                  <option value="threshold">Threshold</option>
+                  <option value="floydSteinberg" selected>
+                    Floyd-Steinberg
+                  </option>
+                  <option value="atkinson">Atkinson</option>
+                  <option value="halftone">Halftone</option>
+                  <option value="none">None</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="thresholdValue">Threshold</label>
+                <input
+                  type="range"
+                  id="thresholdValue"
+                  min="0"
+                  max="255"
+                  value="128"
+                />
+                <span id="thresholdDisplay">128</span>
+              </div>
+              <div class="input-group">
+                <label for="imageInvert">Invert Image</label>
+                <input type="checkbox" id="imageInvert" />
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>Size & Positioning</h3>
+              <div class="input-group">
+                <label for="imageWidth">Width (px)</label>
+                <input
+                  type="number"
+                  id="imageWidth"
+                  value="384"
+                  min="1"
+                  max="384"
+                  step="1"
+                />
+              </div>
+              <div class="input-group">
+                <label for="autoscaleImage">Auto Scale to Width</label>
+                <input type="checkbox" id="autoscaleImage" checked />
+              </div>
+              <div class="input-group">
+                <label for="imagePadding">Padding (px)</label>
+                <input
+                  type="number"
+                  id="imagePadding"
+                  value="10"
+                  min="0"
+                  max="100"
+                  step="1"
+                />
+              </div>
+            </div>
+
+            <div class="action-buttons">
+              <button id="resetImageBtn" class="btn-secondary">Reset</button>
+              <button id="connectImageBtn" class="btn btn-primary connect-btn">
+                Connect Printer
+              </button>
+              <button id="printImageBtn" class="btn-primary" disabled>
+                Print
+              </button>
+            </div>
+          </section>
+
+          <!-- Right Panel: Image Preview -->
+          <section class="preview-panel image-preview-panel">
+            <div class="preview-header">
+              <h2>Print Preview</h2>
+            </div>
+
+            <div class="image-wrapper" id="dropZone">
+              <div class="image-container" id="imageContainer">
+                <canvas id="imagePreview"></canvas>
+                <div id="imagePreviewMessage">
+                  Drop image here or click the upload button
+                </div>
+              </div>
+              <div class="image-summary" id="imageSummary">
+                <!-- Image info will be placed here -->
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Printer Log Panel (shared between modes) -->
+        <section class="log-panel">
+          <div class="log-controls">
+            <h2>Printer Log</h2>
+            <button id="clearLogBtn">Clear Log</button>
+          </div>
+
+          <div class="log-wrapper" id="logWrapper">
+            <!-- Log entries will be added here -->
+          </div>
+
+          <div class="progress-container" id="printProgress">
+            <div class="progress-bar" id="printProgressBar"></div>
+          </div>
+        </section>
+      </div>
     </main>
 
     <footer>
-        <p>MXW01 Tools | <a href="https://github.com/dropalltables/catprinter" target="_blank">catprinter</a></p>
-        <div class="battery-indicator" id="batteryIndicator">
-            <span class="battery-icon">🔋</span>
-            <span class="battery-level" id="batteryLevel">--</span>
-        </div>
+      <p>
+        MXW01 Tools |
+        <a href="https://github.com/dropalltables/catprinter" target="_blank"
+          >catprinter</a
+        >
+      </p>
+      <div class="battery-indicator" id="batteryIndicator">
+        <span class="battery-icon">🔋</span>
+        <span class="battery-level" id="batteryLevel">--</span>
+      </div>
     </footer>
 
     <script type="module" src="js/main.js"></script>
-    
+
     <!-- Structured Data -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "MXW01 CatPrinter Tools",
-      "description": "Web interface for MXW01 CatPrinter - print receipts and images via Bluetooth. Compatible with thermal printers sold on AliExpress for around $20.",
-      "url": "https://catprinter.vercel.app/",
-      "applicationCategory": "UtilityApplication",
-      "operatingSystem": "Web Browser",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "keywords": "MXW01, catprinter, cat printer, thermal printer, receipt printer, bluetooth printer, portable printer",
-      "author": {
-        "@type": "Organization",
-        "name": "MXW01 Tools"
-      },
-      "compatibleWith": [
-        "MXW01 Thermal Printer",
-        "CatPrinter",
-        "Bluetooth Thermal Printer"
-      ]
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "MXW01 CatPrinter Tools",
+        "description": "Web interface for MXW01 CatPrinter - print receipts and images via Bluetooth. Compatible with thermal printers sold on AliExpress for around $20.",
+        "url": "https://catprinter.vercel.app/",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "keywords": "MXW01, catprinter, cat printer, thermal printer, receipt printer, bluetooth printer, portable printer",
+        "author": {
+          "@type": "Organization",
+          "name": "MXW01 Tools"
+        },
+        "compatibleWith": [
+          "MXW01 Thermal Printer",
+          "CatPrinter",
+          "Bluetooth Thermal Printer"
+        ]
+      }
     </script>
-</body>
+  </body>
 </html>

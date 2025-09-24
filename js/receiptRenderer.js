@@ -64,14 +64,12 @@ function createLabelValueLine(label, value, width = RECEIPT_WIDTH_CHARS) {
 }
 
 /**
- * Generates formatted lines for the receipt
+ * Generates a header block for the receipt
  * @param {Object} data - Receipt configuration data
- * @param {Array} items - Line items
- * @returns {Array} Array of text lines
+ * @returns {Array} Array of text lines for the header
  */
-function generateReceiptText(data, items) {
+function generateHeaderBlock(data) {
     const lines = [];
-    const divider = '-'.repeat(RECEIPT_WIDTH_CHARS);
     
     // Header - centered
     lines.push(centerText(data.businessName));
@@ -80,11 +78,34 @@ function generateReceiptText(data, items) {
     lines.push(centerText(data.businessPhone));
     lines.push('');
     
+    return lines;
+}
+
+/**
+ * Generates a transaction info block for the receipt
+ * @param {Object} data - Receipt configuration data
+ * @returns {Array} Array of text lines for transaction info
+ */
+function generateTransactionBlock(data) {
+    const lines = [];
+    const divider = '-'.repeat(RECEIPT_WIDTH_CHARS);
+    
     // Transaction info - left aligned
     lines.push(`DATE: ${data.dateTime}`);
     lines.push(`ORDER #: ${data.transactionNumber}`);
     lines.push(`TABLE: ${data.tableNumber}    SERVER: ${data.serverName}`);
     lines.push(divider);
+    
+    return lines;
+}
+
+/**
+ * Generates an items block for the receipt
+ * @param {Array} items - Line items
+ * @returns {Array} Array of text lines for items
+ */
+function generateItemsBlock(items) {
+    const lines = [];
     
     // Items
     if (items && items.length > 0) {
@@ -101,7 +122,18 @@ function generateReceiptText(data, items) {
         lines.push("NO ITEMS");
     }
     
-    lines.push(divider);
+    return lines;
+}
+
+/**
+ * Generates a totals block for the receipt
+ * @param {Object} data - Receipt configuration data
+ * @param {Array} items - Line items
+ * @returns {Array} Array of text lines for totals
+ */
+function generateTotalsBlock(data, items) {
+    const lines = [];
+    const divider = '-'.repeat(RECEIPT_WIDTH_CHARS);
     
     // Calculate totals
     const subtotal = items.reduce((sum, item) => sum + parseFloat(item.price || 0), 0);
@@ -109,6 +141,7 @@ function generateReceiptText(data, items) {
     const tip = parseFloat(data.tipAmount) || 0;
     const total = subtotal + tax + tip;
     
+    lines.push(divider);
     // Format totals with exact right alignment
     lines.push(createLabelValueLine("SUBTOTAL:", subtotal));
     lines.push(createLabelValueLine(`TAX (${data.taxRate}%):`, tax));
@@ -116,6 +149,25 @@ function generateReceiptText(data, items) {
     lines.push(divider);
     lines.push(createLabelValueLine("TOTAL:", total));
     lines.push('');
+    
+    return lines;
+}
+
+/**
+ * Generates a payment block for the receipt
+ * @param {Object} data - Receipt configuration data
+ * @param {Array} items - Line items
+ * @returns {Array} Array of text lines for payment
+ */
+function generatePaymentBlock(data, items) {
+    const lines = [];
+    const divider = '-'.repeat(RECEIPT_WIDTH_CHARS);
+    
+    // Calculate totals for change
+    const subtotal = items.reduce((sum, item) => sum + parseFloat(item.price || 0), 0);
+    const tax = subtotal * (data.taxRate / 100);
+    const tip = parseFloat(data.tipAmount) || 0;
+    const total = subtotal + tax + tip;
     
     // Payment section with proper alignment
     lines.push(`PAYMENT: ${data.paymentMethod}`);
@@ -125,9 +177,128 @@ function generateReceiptText(data, items) {
     lines.push(createLabelValueLine("CHANGE:", change));
     lines.push(divider);
     
+    return lines;
+}
+
+/**
+ * Generates a footer block for the receipt
+ * @param {Object} data - Receipt configuration data
+ * @returns {Array} Array of text lines for the footer
+ */
+function generateFooterBlock(data) {
+    const lines = [];
+    
     // Footer message - centered
     const footerLines = data.footerMessage.split('\n');
     footerLines.forEach(line => lines.push(centerText(line)));
+    
+    return lines;
+}
+
+/**
+ * Generates a divider block for the receipt
+ * @returns {Array} Array of text lines for the divider
+ */
+function generateDividerBlock() {
+    return ['-'.repeat(RECEIPT_WIDTH_CHARS)];
+}
+
+/**
+ * Generates a custom block for the receipt
+ * @param {Object} block - Custom block data
+ * @returns {Array} Array of text lines for the custom block
+ */
+function generateCustomBlock(block) {
+    const lines = [];
+    
+    if (block.title) {
+        // Add title if present
+        if (block.titleAlignment === 'center') {
+            lines.push(centerText(block.title));
+        } else if (block.titleAlignment === 'right') {
+            lines.push(rightAlign(block.title));
+        } else {
+            lines.push(block.title);
+        }
+    }
+    
+    // Add content lines
+    if (block.content) {
+        const contentLines = block.content.split('\n');
+        contentLines.forEach(line => {
+            if (block.contentAlignment === 'center') {
+                lines.push(centerText(line));
+            } else if (block.contentAlignment === 'right') {
+                lines.push(rightAlign(line));
+            } else {
+                lines.push(line);
+            }
+        });
+    }
+    
+    return lines;
+}
+
+/**
+ * Generates formatted lines for the receipt
+ * @param {Object} data - Receipt configuration data
+ * @param {Array} items - Line items
+ * @returns {Array} Array of text lines
+ */
+function generateReceiptText(data, items) {
+    let lines = [];
+    
+    // Get the block order from the data or use default order
+    const blockOrder = data.blockOrder || [
+        'header',
+        'transaction',
+        'items',
+        'totals',
+        'payment',
+        'footer'
+    ];
+    
+    // Generate blocks based on the specified order
+    blockOrder.forEach(blockType => {
+        switch(blockType) {
+            case 'header':
+                lines = lines.concat(generateHeaderBlock(data));
+                break;
+            case 'transaction':
+                lines = lines.concat(generateTransactionBlock(data));
+                break;
+            case 'items':
+                lines = lines.concat(generateItemsBlock(items));
+                break;
+            case 'totals':
+                lines = lines.concat(generateTotalsBlock(data, items));
+                break;
+            case 'payment':
+                lines = lines.concat(generatePaymentBlock(data, items));
+                break;
+            case 'footer':
+                lines = lines.concat(generateFooterBlock(data));
+                break;
+            default:
+                // Check if this is a custom block
+                if (blockType.startsWith('custom_') && data.customBlocks) {
+                    const customBlockId = blockType.replace('custom_', '');
+                    const customBlock = data.customBlocks.find(block => block.id === customBlockId);
+                    if (customBlock) {
+                        lines = lines.concat(generateCustomBlock(customBlock));
+                    }
+                }
+                // Check if this is a divider block
+                else if (blockType.startsWith('divider_') && data.customBlocks) {
+                    const dividerBlockId = blockType.replace('divider_', '');
+                    const dividerBlock = data.customBlocks.find(block => block.id === dividerBlockId && block.type === 'divider');
+                    if (dividerBlock) {
+                        lines = lines.concat(generateDividerBlock());
+                    }
+                }
+                break;
+        }
+    });
     
     return lines;
 }
